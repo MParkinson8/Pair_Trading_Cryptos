@@ -18,7 +18,7 @@
 \usepackage{bbm}
 \usepackage{bm}
 \usepackage{latexsym}
-%\usepackage{xcolor}
+\usepackage{xcolor}
 \usepackage[pdftex]{xcolor, graphicx}
 \usepackage[normalem]{ulem}
 \usepackage[font={small}]{caption}
@@ -65,9 +65,9 @@
 
 \title{Pair trading on Cryptocurrencies}
 
-\author{Alessandro Balata\thanks{A.Balata@leeds.ac.uk} } 
+\author{\ab{Alessandro Balata}\thanks{A.Balata@leeds.ac.uk} } 
 \author{Jack Dry\thanks{jack\textunderscore dry@outlook.com}} 
-\author{John McKenzie\thanks{jrm228@cam.ac.uk}} 
+\author{\textcolor{magenta}{John McKenzie}\thanks{jrm228@cam.ac.uk}} 
 \author{Aliaksei Mikhailiuk\thanks{aliaksei.mikhailiuk@gmail.com}}
 
 \affil{The Quant Group - \textit{www.thequantgroup.org} -}
@@ -83,27 +83,48 @@ In this paper we explore the idea of cointegration and its application to tradin
 
 \ab{we need to adapt description of the trading strategy to portfolio allocation framework, where we have a fix amount of money and we change the weights, i.e amount of money invested in each currency or left in bank account (assume 0\% interest rate).}
 
+\textcolor{magenta}{I suggest this structure:\\
+1.	Introduction: a little on pairs trading, then our results, why we believe they are important, and what follows section by section.\\
+2.	Cointegration, and currency selection. First differencing, Unit root testing, and the Engle Granger test of cointegration. P-values. Reconciliation with some fundamentals.\\
+3.	Computation of spread. Open pair once there is divergence using the cointegration coefficient (where beta gives how many units to buy/sell for one of the currencies while selling/holding one unit of the other currency), unwind position upon convergence. Show how this is translated into a portfolio with weights, and budget. Justify computation of rolling beta for update as new data comes in.\\
+4.	Some concerns re liquidity (bid-ask spreads, i.e. estimates of transaction costs, and difficulty for shorting cryptocurrencies). Our response, and adjustments.\\
+5.	Empirical results of backtest\\
+6.	Conclusion\\}
+
+\newpage
+
+
 \section{Introduction}
 
-\ab{work on introduction}
+Pairs trading is an investment strategy that was popularized in the 80's, which consists of simultaneously holding opposing positions in a pair of securities that are related in some statistical or fundamental way. The most common notion of statistical relatedness is that of correlation, which focuses on the direction of movement in security prices. In this paper, however, we focus on \textit{cointegration}, which is a direction-independent notion of statistical relatedness. More specifically, cointegration identifies the degree to which security prices move with respect to the same mean over some time period. In this sense, a pair trading strategy looks to profit from an eventual deviation from this mean.\\
 
-Pairs trading is a strategy that was popularized in the 80's, which consists of simultaneously holding opposing positions in a pair of instruments, that are related in some statistical or fundamental way. A widespread notion of statistical relatedness is that of correlation, which focuses on the direction of movement in asset prices. In this sense, a pair trading strategy looks to profit from a temporary weakening of such correlation. Another notion of statistical relatedness is that of \textit{cointegration}, which identifies the degree to which asset prices move with respect to the same mean over some time period. Here, a pair trading strategy looks to profit from an eventual deviation from this mean.
+While these strategies have more commonly been employed in traditional securities such as stocks, or ETFs, its application to novel instruments such as cryptocurrencies appears not to have been given much coverage. Hence, we expect among the many cryptocurrencies available today, to find groups of them that are highly cointegrated and share fundamental characteristics such as their technology, security, privacy, associated transaction costs, capitalization, liquidity and other. We would expect the price of these currencies to behave similarly, on average, opening opportunities for trading the spread in each pair within the groups.\\
 
-While these strategies have been commonly employed in more traditional securities such as stocks, or ETFs, its application to novel instruments such as cryptocurrencies appears to be novel. In this sense, and given the direction-independent advantages of cointegration over correlation, we expect, among the many cryptocurrencies available today, to find groups of them that are highly cointegrated and share fundamental characteristics such as their technology, security, privacy, associated transaction costs, capitalization, liquidity and others. We would expect the price of these currencies to behave similarly, on average, opening opportunities for trading the spread in each pair within the groups.
+\textcolor{magenta}{[Brief paragraph on results]}\\
 
 The rest of the paper is organised as follow: in section \ref{sec:cointegration} we introduce the idea of cointegration and we highlight the most relevant aspects in building a trading strategy; in subsection \ref{sec:index} we explore a new notion of pair trading which we call index trading, and involve the  use of multiple currencies rather than just two. In section \ref{sec:cryptos} we introduce the market of cryptocurrencies and identify the coins we want to trade. Section \ref{sec:trading} gives a formal introduction of trading strategy on a stationary mean reverting process. The mathematics developed in the previous sections is finally applied to the coins identified in section \ref{sec:cryptos}, synthetic assets and trading strategies are computed and the performance of such strategies are computed on real data. 
 
 \section{Cointegration and spread computation}
 \label{sec:cointegration}
-The ideal situation for a trader is to identify an asset whose price process is stationary and mean reverting. For the lucky investor profitable trading on this asset is almost sure, provided she has enough time to wait for the asset price to revert to its long term (constant and known) mean. The trading strategy is simple enough, buy low and sell high. Further, when the dynamics of the price process are exactly those of a OU process (or AR(1) in discrete time), optimal entry and exit points are known analytically.
+
+Pairs trading boils down to having two securities whose prices 'move closely together'. Whenever their spread is greater than a certain threshold, one buys the losing security, and shorts the winner. Finally, one unwinds the positions upon convergence. 
+
+This sounds easier than it is to implement. For starters, how does one go about selecting such pairs? Moreover, what threshold should be used? Is this threshold ad-hoc or optimally determined? The ideal situation for a trader is to identify an asset whose price process is stationary and mean reverting. For the lucky investor profitable trading on this asset is almost sure, provided she has enough time to wait for the asset price to revert to its long term (constant and known) mean. The trading strategy is simple enough, buy low and sell high. Further, when the dynamics of the price process are exactly those of a OU process (or AR(1) in discrete time), optimal entry and exit points are known analytically.
 In the real world however we struggle to find such assets, and even in the most promising situations, we can at best hope to find a mean reverting process with volatility clusters and stochastic long-term mean. In these conditions it is less clear whether the investor will be able to profit from simple trading strategies and rather she will need exogenous factors to predict changes in price volatility and the level of the long term mean.
 
 \subsection{Simple OLS estimation}
 \label{sub:simple_OLS}
 
+
+\textcolor{magenta}{I just came across this potential issue when contructing the spread\\ **************************************}
+
+Our estimates for $\beta$ are going to be SEVERELY biased (especially so in small samples, like the ones we have) if it so happens that the error (I think Alessandro calls it Y below) is serially correlated. I know you say that this would be fine if be had $hat{Y}_{t}$ Normally distributed, but in practice if we don't want to make such an assumption we should estimate $\beta$ using \textbf{dynamic OLS}, which basically uses lags and leads of (in your case below) $X^2$. If it o happens that after we estimate $\beta$ in this fashion we still have serial correlation in the errors then we should try use HAC standard errors for better inference. 
+
+\textcolor{magenta}{**************************************}
+
 An alternative approach which aims at retrieving the ideal situation presented at the beginning of the section is to construct a synthetic product (spread hereafter), that enjoys the properties of stationarity and mean reversion, using assets traded on the market. The mathematical concept of cointegration helps us to identify the assets underlying the spread.
 
-More formally, assume for now that we are given two cointegrated time series $X^1$ and $X^2$, whose element at time $t$ are denoted by $X^i_t$, $i=1,2$. It is well known (\ab{add reference}) that it exists a linear combination of these time series $Y=b^1X^1+b^2X_2$ that is stationary and mean reverting. Assuming now that the resulting time series at time $t$, $Y_t$ is normally distributed, we can compute the coefficients $b^1$ and $b^2$ rewriting:
+More formally, assume for now that we are given two cointegrated time series $X^1$ and $X^2$, whose element at time $t$ are denoted by $X^i_t$, $i=1,2$. It is well known (\ab{add reference}) that there exists a linear combination of these time series $Y=b^1X^1+b^2X_2$ that is stationary and mean reverting. Assuming now that the resulting time series at time $t$, $Y_t$ is normally distributed, we can compute the coefficients $b^1$ and $b^2$ rewriting:
 \begin{equation}
 \label{eq:ols}
 Y=b^1X^1+b^2X_2\;\Rightarrow\;X^1=-\frac{b_2}{b_1}X^2+\frac{1}{b_1}Y=\beta^0+\beta X^2+\hat{Y},
@@ -174,7 +195,20 @@ By following the well known OLS estimation technique for multivariate regression
 
 \subsection{Statistical tests}
  
-\ab{In this section we should explain the statistical test used to verify cointegration}
+There are many ways in which one may select pairs. A common method among practitioners is to exhaustively regress the pairs on each other and select those whose residual sum of squares is as small as possible. Other methodologies include statistical tests. These are a bit more sophisticated but probably equally time-consuming, particularly so when looking at a very wide pool of securities. In this section, we restrict our attention to the Augmented Engle-Granger cointegration test.\\
+
+Testing for cointegration is useful insofar as it gives the researcher an indication for whether regression of two processes is potentially spurious. This is the case whenever two processes have different stochastic trends in their Beveridge-Nelson decompositions. For our purposes, two stochastic trends are different whenever the differencing degrees required to make the processes stationary are also different. Note, however, that this plays as a necessary condition only. It is still possible that two processes with the same order of integration are not cointegrated.\\
+
+
+In practice then, one should only go ahead and test for cointegration after it has been established that the series have the same order of integration. Unless otherwise stated, we assume that two series $Y_{t}$ and $X_{t}$ are $I(1)$ processes. The Augmented Engle-Granger cointegration test uses the Dickey-Fuller methodology of unit root testing in the residuals from the regression of $Y_{t}$ on $X_{t}$, which we denote as $\hat{\varepsilon}_{t}$. The Augmented Dickey-Fuller form we choose is constant-only\footnote{The reasons for choosing a constant-only form has to do with the fact that cryptocurrency data are not very large, and do not seem to display any long-term trends. However, the test can be easily generalized to account for a trend. Nevertheless, the asymptotic critical values will be different.}:
+
+\[\Delta\hat{\varepsilon}_{t}=\delta_{0}+\theta\hat{\varepsilon}_{t-1}+\sum_{j=1}^p \Delta \hat{\varepsilon}_{t-j} + u_{t}\]
+
+The sum term is there to account for the possibility that the errors in the regression of $Y_{t}$ on $X_{t}$ are serially correlated. The order for the serial correlation adjustment, $p$ is usually determined using an information criterion. We use the Bayesian Information Criterion (BIC). Given this setup, the null hypothesis of \textit{no cointegration} is equivalent to testing for the presence of a unit root in $\hat{\varepsilon}_{t}$, i.e. \[H_{0}: \theta = 0\].
+
+The t-statistic following from OLS regression of the Augmented Dickey Fuller form has non-standard distribution. Its asymptotic critical values have been traditionally looked up in tables compiled by the authors of the test. The null is rejected if the t-statistic is \textit{less} than those critical values, in favour of a cointegrating relationship between $Y_{t}$ and $X_{t}$.
+
+\newpagesee
 
 see figure \ref{f:acf}
 
