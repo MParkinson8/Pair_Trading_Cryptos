@@ -30,7 +30,7 @@ class Plotter:
     def plot_pnl(value, name1, name2):
 
         plt.figure()
-        plt.plot(np.cumsum(value))
+        plt.plot(value)
         plt.title(name1+" "+name2+" P&L")
         plt.ylabel('P & L');
 
