@@ -1,70 +1,37 @@
-import pandas as pd
+
 import numpy as np
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
-import csv
-from DataHolder import DataHolder
-from Plotter import Plotter
-
-
 
 class Backtest:
 
-    def __init__(self):
-        self.coins = ['Dash','Litecoin']
-        self.position1 = [0]
-        self.position2 = [0]
-        self.value = [0]
-        #coins=['Dash','Litecoin']
-        #coins=['PIVX','Litecoin']
-        #coins=['GameCredits','StellarLumens']
+    def __init__(self, comission_per_trade):
+        self.commision_per_trade = comission_per_trade;
 
+    def run_backtest(self, trader, strategy, data):
+        #backtest the trading strategy given by the if statements in 68 72 76-80
 
-    def get_data(self):
+        offset = len(data.currencies) - len(data.beta)
 
-        self.Zscore = DataHolder.get_zscore(self.coins)
-        self.beta = DataHolder.get_beta(self.coins)
-        self.currencies, self.name1, self.name2 = DataHolder.get_currencies(self.coins)
+        for i in range(0,len(data.Zscore)):
 
+            # Current time idx in the currencies, since beta is shorter than the currencies need to move idx accordingly
+            idx = offset + i
 
-    def run_backtest(self):
-            #backtest the trading strategy given by the if statements in 68 72 76-80
+            sum_2 = np.sum(trader.position2)
+            sum_1 = np.sum(trader.position1)
+            price_curr_1 = data.currencies[data.name1][idx]
+            price_curr_2 = data.currencies[data.name2][idx]
+            zscore = data.Zscore[i]
+            beta = data.beta[i]
 
-        for i in range(0,len(self.Zscore)):
-            if self.Zscore[i]<-1.5: #sell beta coins of first currency buy one coin of the second --> the spread will narrow
-                self.value.append(-self.currencies[self.name2][len(self.currencies)-len(self.beta)+i]+self.beta[i]*self.currencies[self.name1][len(self.currencies)-len(self.beta)+i])
-                self.position1.append(-self.beta[i])
-                self.position2.append(1)
-            elif self.Zscore[i]>1.5:#buy beta coins of first currency sell one coin of the second --> the spread will narrow
-                self.value.append(+self.currencies[self.name2][len(self.currencies)-len(self.beta)+i]-self.beta[i]*self.currencies[self.name1][len(self.currencies)-len(self.beta)+i])
-                self.position1.append(self.beta[i])
-                self.position2.append(-1)
-            elif -0.5<self.Zscore[i]<0.5:#the spread is narrow-->close all positions (avoid currency 1 coins leftovers)
-                self.value.append(-np.sum(self.position2)*self.currencies[self.name2][len(self.currencies)-len(self.beta)+i]-np.sum(self.position1)*self.currencies[self.name1][len(self.currencies)-len(self.beta)+i])
-                self.position1.append(-np.sum(self.position1))
-                self.position2.append(-np.sum(self.position2))
-            else:#spread does not have a statistically significant value, wait.
-                self.value.append(0)
-                self.position1.append(0)
-                self.position2.append(0)
+            value, position_curr_1, position_curr_2 = strategy.generate_signal(zscore, beta, price_curr_1, price_curr_2, sum_1, sum_2)
+
+            trader.value.append(value)
+            trader.position1.append(position_curr_1)
+            trader.position2.append(position_curr_2)
+
 
         
-    def plot(self):
-        Plotter.plot_zscore(self.Zscore, self.name1, self.name2)
-        Plotter.plot_currencies(self.currencies,self.name1, self.name2)
-        Plotter.plot_pnl(self.value, self.name1, self.name2)
-        Plotter.plot_logsc(self.currencies, self.beta, self.name1, self.name2)
-        Plotter.plot_open_position(self.position1, self.position2, self.name1, self.name2)
-        Plotter.plot_units_bought_and_sold(self.position1, self.position2, self.name1, self.name2)
-        plt.show()
 
 
 
-if __name__=="__main__":
-    backtest = Backtest()
-    #plotter = Plotter()
-    #dataHolder = DataHolder()
-    backtest.get_data()
-    backtest.run_backtest()
-    backtest.plot()
 
