@@ -13,7 +13,7 @@ class Trader:
         self.initial_capital = initial_capital
         self.position1 = []
         self.position2 = []
-        self.value = []
+        self.value = [initial_capital]
 
 
 

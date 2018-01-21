@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-
+import pandas as pd
 class Plotter:
 
 
@@ -27,12 +27,20 @@ class Plotter:
         plt.ylabel('$ (log-scale)');
 
 
-    def plot_pnl(value, name1, name2):
+    def plot_returns(value, name1, name2):
+        price_series = pd.Series((np.cumsum(value)-value[0])/value[0]*100.0)
+
+        plt.figure()
+        plt.plot(price_series)
+        plt.title(name1+" "+name2+" returns %")
+        plt.ylabel('Returns %');
+
+    def plot_pnl(currencies,value, name1, name2):
 
         plt.figure()
         plt.plot(np.cumsum(value))
         plt.title(name1+" "+name2+" P&L")
-        plt.ylabel('P & L');
+        plt.ylabel('Portfolio value $');
 
 
     def plot_logsc(currencies, beta, name1, name2):
