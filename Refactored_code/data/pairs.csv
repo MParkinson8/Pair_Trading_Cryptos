@@ -1,8 +1,8 @@
-coin_1, coin_2
-'BitShares', 'GameCredits'
-'GameCredits', 'Ethereum'
-'GameCredits', 'StellarLumens'
-'Hshare', 'Crown'
-'SiaCoin', 'Blocknet'
-'Siacoin', 'Verge'
-'Dash', 'Litecoin'
+coin1,coin2
+"BitShares","GameCredits"
+"GameCredits","Ethereum"
+"GameCredits","StellarLumens"
+"Hshare","Crown"
+"SiaCoin","Blocknet"
+"Siacoin","Verge"
+"Dash","Litecoin"
