@@ -20,12 +20,14 @@ def plot(trader,data):
 
 if __name__=="__main__":
 
-    coins = ['ETC', 'ETH']
+#Available coins: BTC LTC ETH ETC DASH XMR BCH
+
+    coins = ['BTC', 'BCH']
     window_ols = 48*7
     window_ma = 48*28
     buy_sell_zscore = 2.0
     close_zscore = 0.1
-    starting_capital = 10.0
+    starting_capital = 1000.0  #the capital does not affect the size of the positions
     comission_per_trade = 2.0
 
     data = DataHolder(coins,window_ols,window_ma)

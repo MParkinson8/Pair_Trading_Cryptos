@@ -28,10 +28,16 @@ class Plotter:
 
 
     def plot_returns(value, name1, name2):
-        price_series = pd.Series((np.cumsum(value)-value[0])/value[0]*100.0)
-
+        #returns = pd.Series((np.cumsum(value)-value[0])/value[0]*100.0)#this is not the metric we want
+        #now it plots monthly returns
+        tt=48*20
+        returns=[]
+        for i in range(tt,len(value)-tt):
+            returns.append((np.sum(value[0:tt+i])-np.sum(value[0:i]))/np.sum(value[0:i])*100.0)
+        return_s = pd.Series(returns)
+    
         plt.figure()
-        plt.plot(price_series)
+        plt.plot(return_s)
         plt.title(name1+" "+name2+" returns %")
         plt.ylabel('Returns %');
 

@@ -44,10 +44,10 @@ class DataHolder:
         for i in range(0,2):
 
             tmp = pd.read_csv('./data/'+str(self.coins[i])+'.csv')
-            tmp = tmp.drop(['close','high','low','since','volume','weightedAverage'], axis = 1)
-            tmp['date']= pd.to_datetime(tmp['date'], infer_datetime_format=True)
-            tmp = tmp.set_index('date')
-            tmp= tmp.resample('30T').mean()
+            tmp = tmp.drop(['date','close','high','low','since','volume','weightedAverage'], axis = 1)
+            #tmp['date']= pd.to_datetime(tmp['date'], infer_datetime_format=True)
+            #tmp = tmp.set_index('date')
+            #tmp= tmp.resample('30T').mean()
             self.currencies.append(tmp)
 
         for i in range(0, 2):
