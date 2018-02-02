@@ -11,7 +11,7 @@ def plot(trader,data):
     Plotter.plot_currencies(data.currencies, data.name1, data.name2)
     Plotter.plot_pnl(data.currencies,trader.value, data.name1, data.name2)
     Plotter.plot_returns(trader.value, data.name1, data.name2)
-    Plotter.plot_logsc(data.currencies, data.beta, data.name1, data.name2)
+    #Plotter.plot_logsc(data.currencies, data.beta, data.name1, data.name2)
     Plotter.plot_open_position(trader.position1, trader.position2, data.name1, data.name2)
     Plotter.plot_units_bought_and_sold(trader.position1, trader.position2, data.name1, data.name2)
 
@@ -20,12 +20,12 @@ def plot(trader,data):
 
 if __name__=="__main__":
 
-    coins = ['Dash', 'Litecoin']
-    window_ols = 60
-    window_ma = 60
-    buy_sell_zscore = 1.0
-    close_zscore = 0.5
-    starting_capital = 10000.0
+    coins = ['ETC', 'ETH']
+    window_ols = 48*7
+    window_ma = 48*28
+    buy_sell_zscore = 2.0
+    close_zscore = 0.1
+    starting_capital = 10.0
     comission_per_trade = 2.0
 
     data = DataHolder(coins,window_ols,window_ma)
