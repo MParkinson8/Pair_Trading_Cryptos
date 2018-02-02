@@ -1,0 +1,1 @@
+I eliminated data from december 2017 onwards to preserve them for future out-of-sample backtesting
