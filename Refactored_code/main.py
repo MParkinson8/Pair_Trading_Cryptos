@@ -23,18 +23,33 @@ if __name__=="__main__":
     coins = ['ETC', 'ETH']
     window_ols = 48*7
     window_ma = 48*28
+    
+    # How many standard deviations from the mean are entry and exit points
     buy_sell_zscore = 2.0
     close_zscore = 0.1
     starting_capital = 10.0
     comission_per_trade = 2.0
 
+
+    # DataHolder reads coins and computes beta and zscore
     data = DataHolder(coins,window_ols,window_ma)
+
+    # Set the strategy, parameters are the entry and exit points of the model
     strategy = Strategy(buy_sell_zscore, close_zscore)
+    
+    # Trader holds capital
     trader = Trader(starting_capital)
+
+    # Backtest iterates over the days.
     backtest = Backtest(comission_per_trade)
 
+    # Read coins prices, compute z-srore and beta
     data.get_data()
 
+
+    # Run the backtest
     backtest.run_backtest(trader,strategy,data)
 
+
+    # Plot results of the backtest
     plot(trader,data)
