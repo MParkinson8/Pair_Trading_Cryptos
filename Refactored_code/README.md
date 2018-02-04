@@ -1,5 +1,5 @@
 
-#To compile in python 3 run in the terminal:
+To compile in python 3 run in the terminal:
 
 python3 main.py
 
@@ -10,6 +10,9 @@ python main.py
 
 
 #TODO:
+
+
+
 0. Check whether we have lookahead bias (it seems that we indeed have it...)
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)
 2. Specify the range of the backtest (Starting and ending days of the simulation)
@@ -25,33 +28,39 @@ python main.py
 #Files:
 
 =====================================================================
+
 main.py
 
 Starting point of the function.
 Here parameters are set and constructors of all classes are called.
 
 =====================================================================
+
 DataHolder.py
 
 
 Holds the coins prices and zscore and beta
 
 =====================================================================
+
 Backtest.py
 
 Iterates over the days and calls the strategy
 
 =====================================================================
+
 Strategy.py
 
 Pairs trading heart 
 
 =====================================================================
+
 Plotter.py
 
 Contains functionality to plot
 
 =====================================================================
+
 Tester.py
 
 Tests for coins cointegration, ideally should be the starting point
