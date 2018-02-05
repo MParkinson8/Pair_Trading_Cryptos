@@ -23,7 +23,7 @@ class Backtest:
             zscore = data.Zscore[i]
             beta = data.beta[i]
 
-            value, position_curr_1, position_curr_2 = strategy.generate_signal(zscore, beta, price_curr_1, price_curr_2, sum_1, sum_2, self.commission_per_trade*2,2)
+            value, position_curr_1, position_curr_2 = strategy.generate_signal(zscore, beta, price_curr_1, price_curr_2, sum_1, sum_2, self.commission_per_trade,sum(trader.value)/price_curr_2*0.1)
 
 
             if i == 0:

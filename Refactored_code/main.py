@@ -10,7 +10,7 @@ def plot(trader,data):
     Plotter.plot_zscore(data.Zscore, data.name1, data.name2)
     Plotter.plot_currencies(data.currencies, data.name1, data.name2)
     Plotter.plot_pnl(data.currencies,trader.value, data.name1, data.name2)
-    Plotter.plot_returns(trader.value, data.name1, data.name2)
+    #Plotter.plot_returns(trader.value, data.name1, data.name2)
     #Plotter.plot_logsc(data.currencies, data.beta, data.name1, data.name2)
     Plotter.plot_open_position(trader.position1, trader.position2, data.name1, data.name2)
     Plotter.plot_units_bought_and_sold(trader.position1, trader.position2, data.name1, data.name2)
@@ -29,8 +29,8 @@ if __name__=="__main__":
     # How many standard deviations from the mean are entry and exit points
     buy_sell_zscore = 2.0
     close_zscore = 0.1
-    starting_capital = 1000.0  #the capital does not affect the size of the positions
-    comission_per_trade = 2.0
+    starting_capital = 10000.0  #the capital does not affect the size of the positions
+    comission_per_trade = 0.005
 
 
     # DataHolder reads coins and computes beta and zscore
