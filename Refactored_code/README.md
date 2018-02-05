@@ -1,3 +1,4 @@
+
 To compile in python 3 run in the terminal:
 
 python3 main.py
@@ -18,7 +19,7 @@ I found a major error in Strategy.py, when closing the position the value was co
 0. Check whether we have lookahead bias (it seems that we indeed have it...)
     ab{why? you talking about current code or the strategy outlined in report?}
     am{We are trading based on the current close prices i.e. at day k, though we do not know close price on the day and thus should use close of previous day, i.e. day k-1}
-
+ab{we are using open prices now so it should be fine...}
 
 2. Specify the range of the backtest (Starting and ending days of the simulation)
 
