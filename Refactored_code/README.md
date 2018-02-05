@@ -8,13 +8,11 @@ or if python 2 is installed:
 python main.py
 
 
-*********note that it is quite slow now that we use 30mins data, if you plot returns in addition (due to a badly written for loop) it becomes terribly slow!
+note that it is quite slow now that we use 30mins data, if you plot returns in addition (due to a badly written for loop) it becomes terribly slow!
 
 #TODO:
 
----- 
 I found a major error in Strategy.py, when closing the position the value was counted with the wrong sign. I corrected it and introduced two features: when a position is opened we read the signal on the true process, if we do so we need to rebalance otherwise we end up never closing the position.
-----
 
 0. Check whether we have lookahead bias (it seems that we indeed have it...)
     ab{why? you talking about current code or the strategy outlined in report?}
@@ -35,6 +33,7 @@ ab{we are using open prices now so it should be fine...}
 11. Check the resampling in data holder, should not be needed but it was there before and now does not work on 30 mins data---> we have no dates to use for item 2.
 
 12 check the updates listed below. The performance are terrible now so I hope there is still stuff to correct
+
 ------DONE----
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)DONE
 
