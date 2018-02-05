@@ -28,7 +28,7 @@ class Backtest:
             rebalancing=not counter%(24*x)
 
 #if we are not trading we use the zscore to read the trading signal (only when beta>0, what would the opposite mean?)
-            if sum_2==0 and data.beta[i]>0:
+            if sum_2==0 :#and data.beta[i]>0:
                 counter=0 #set counter to zero
                 zscore = data.Zscore[i]
                 trader.openZ.append(0)
@@ -52,7 +52,7 @@ class Backtest:
                                                              sum_1, sum_2, self.commission_per_trade,
                                                              sum(trader.value)/price_curr_2*0.1)
 #if we rebalance, and the time dependent beta is positive
-                elif rebalancing and data.beta[i]>0:
+                elif rebalancing :#and data.beta[i]>0:
                     #load the trading signal corresponding to the new beta
                     zscore = data.Zscore[i]
                     trader.openZ.append(zscore)

@@ -24,13 +24,13 @@ if __name__=="__main__":
 
 #Available coins: BTC LTC ETH ETC DASH XMR BCH
 
-    coins = ['BTC', 'BCH']
-    window_ols = 48*14
+    coins = ['DASH', 'XMR']
+    window_ols = 48*7
     window_ma = 48*28
     
     # How many standard deviations from the mean are entry and exit points
-    buy_sell_zscore = 1.0
-    close_zscore = 0.5
+    buy_sell_zscore = 2.0
+    close_zscore = 0.2
     starting_capital = 1000.0
     comission_per_trade = 0.5/100 #this is variable commission 
 
