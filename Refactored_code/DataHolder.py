@@ -21,6 +21,10 @@ class DataHolder:
         self.Zscore = []
 
         self.currencies = []
+        
+        self.spread_mavg=[]
+        
+        self.spread_std=[]
 
     def read_zscore(self):
 
@@ -92,13 +96,13 @@ class DataHolder:
         spread_mavg1 = spread.rolling(window=1).mean()
 
         # Get the longer moving average
-        spread_mavg = spread.rolling(window=self.window_ma,win_type='hamming',center=False).mean()
+        self.spread_mavg = spread.rolling(window=self.window_ma,win_type='hamming',center=False).mean()
 
         # Take a rolling standard deviation
-        spread_std = spread.rolling(window=self.window_ma).std()
+        self.spread_std = spread.rolling(window=self.window_ma).std()
 
         # Compute the z score for each day
-        self.Zscore = (spread_mavg1 - spread_mavg)/spread_std
+        self.Zscore = (spread_mavg1 - self.spread_mavg)/self.spread_std
 
 
     def printer(self):

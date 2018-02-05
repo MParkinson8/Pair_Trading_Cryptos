@@ -14,6 +14,7 @@ class Trader:
         self.position1 = []
         self.position2 = []
         self.value = [initial_capital]
+        self.openZ=[]
 
 
 

@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 
 def plot(trader,data):
     Plotter.plot_zscore(data.Zscore, data.name1, data.name2)
+    Plotter.plot_openZ(trader.openZ, data.name1, data.name2)
+    Plotter.plot_beta(data.beta)
     Plotter.plot_currencies(data.currencies, data.name1, data.name2)
     Plotter.plot_pnl(data.currencies,trader.value, data.name1, data.name2)
     #Plotter.plot_returns(trader.value, data.name1, data.name2)
@@ -23,14 +25,14 @@ if __name__=="__main__":
 #Available coins: BTC LTC ETH ETC DASH XMR BCH
 
     coins = ['BTC', 'BCH']
-    window_ols = 48*7
+    window_ols = 48*14
     window_ma = 48*28
     
     # How many standard deviations from the mean are entry and exit points
-    buy_sell_zscore = 2.0
-    close_zscore = 0.1
-    starting_capital = 10000.0  #the capital does not affect the size of the positions
-    comission_per_trade = 0.005
+    buy_sell_zscore = 1.0
+    close_zscore = 0.5
+    starting_capital = 1000.0
+    comission_per_trade = 0.5/100 #this is variable commission 
 
 
     # DataHolder reads coins and computes beta and zscore

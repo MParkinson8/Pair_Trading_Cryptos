@@ -12,8 +12,23 @@ class Plotter:
         plt.plot(Zscore)
         plt.title(name1+" "+name2+" normalised spread")
         plt.axhline(0, color='black')
-        plt.axhline(1.0, color='red', linestyle='--');
-        plt.axhline(-1.0, color='green', linestyle='--');
+        plt.axhline(2.0, color='red', linestyle='--');
+        plt.axhline(-2.0, color='green', linestyle='--');
+        
+    def plot_openZ(Zscore, name1, name2):
+
+        plt.figure()
+        plt.plot(Zscore)
+        plt.title(name1+" "+name2+" normalised spread for open positions")
+        plt.axhline(0, color='black')
+        plt.axhline(2.0, color='red', linestyle='--');
+        plt.axhline(-2.0, color='green', linestyle='--');
+        
+        
+    def plot_beta(beta):
+
+        plt.figure()
+        plt.plot(beta)
 
     
 
