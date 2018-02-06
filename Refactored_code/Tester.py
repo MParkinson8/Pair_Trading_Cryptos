@@ -1,12 +1,13 @@
 import pandas as pd
 from statsmodels.tsa.stattools import coint
-
+from statsmodels.tsa.stattools import adfuller as adf
 
 class Tester:
 
 
-    def __init__(self):
-        self.pairs = pd.read_csv('./data/pairs.csv')
+    def __init__(self,s):
+    #self.pairs = pd.read_csv('./data/pairs.csv')
+        self.significance=s
 
     def choose_pairs_from_list(self):
         list = []
@@ -41,7 +42,22 @@ class Tester:
 
             if pvalue<0.001:
                 list.append([coin_name_1,coin_name_2])
-
-
         return list
+    
+    #the following tests cointegration and output either true of false, depending whether
+    #the p value is smaller than the significance
+    def test_cointegration(self, coin1, coin2):
+        if coint(coin1, coin2)[1] < self.significance:
+            return True
+        else:
+            return False
+        
+    #the following tests stationarity using aug dickey fuller and output either true of false,
+    #depending whether the p value is smaller than the significance
+    def test_stationarity(self, coin1, coin2, beta):
+        temp=coin2-beta*coin1
+        if adf(temp)[1] < self.significance:
+            return True
+        else:
+            return False
 

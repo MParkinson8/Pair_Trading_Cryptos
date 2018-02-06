@@ -2,6 +2,7 @@ from DataHolder import DataHolder
 from Strategy import Strategy
 from Backtest import Backtest
 from Trader import Trader
+from Tester import Tester
 from Plotter import Plotter
 import matplotlib.pyplot as plt
 
@@ -24,19 +25,23 @@ if __name__=="__main__":
 
 #Available coins: BTC LTC ETH ETC DASH XMR BCH
 
-    coins = ['DASH', 'XMR']
-    window_ols = 48*7
-    window_ma = 48*28
+    coins = ['LTC', 'BCH']
+    window_ols = 48*1
+    window_ma = 48*7
     
     # How many standard deviations from the mean are entry and exit points
     buy_sell_zscore = 2.0
     close_zscore = 0.2
     starting_capital = 1000.0
     comission_per_trade = 0.5/100 #this is variable commission 
+    significance= 0.05
 
 
     # DataHolder reads coins and computes beta and zscore
     data = DataHolder(coins,window_ols,window_ma)
+    
+    tester=Tester(significance)
+
 
     # Set the strategy, parameters are the entry and exit points of the model
     strategy = Strategy(buy_sell_zscore, close_zscore)
@@ -52,7 +57,7 @@ if __name__=="__main__":
 
 
     # Run the backtest
-    backtest.run_backtest(trader,strategy,data)
+    backtest.run_backtest(trader,strategy,data,tester,window_ols)
 
 
     # Plot results of the backtest
