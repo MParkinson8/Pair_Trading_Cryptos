@@ -1,4 +1,8 @@
 
+Note that I found that beta has some nan in it. Someone should look into this.
+
+.........
+
 To compile in python 3 run in the terminal:
 
 python3 main.py
@@ -34,6 +38,8 @@ ab{we are using open prices now so it should be fine...}
 
 12 check the updates listed below. The performance are terrible now so I hope there is still stuff to correct
 
+14 Live computation of beta and zscore (inside for loop in backtest rather than doing it in advance in the dataholder) (this is a step towards 8)
+
 ------DONE----
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)DONE
 
@@ -42,6 +48,8 @@ ab{we are using open prices now so it should be fine...}
 7. Try with open, not close prices (i.e. leave open and drop close prices in the data holder){I have done this already at previous commit} DONE
 
 5. Update beta after entering position (i.e. adjust open position sizes with the time) DONE
+
+13. Testing DONE
 --------------
 
 
