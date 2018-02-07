@@ -2,7 +2,7 @@
 class Trader:
 
 
-    def __init__(self,initial_capital):
+    def __init__(self,initial_capital,risk_ad):
 
         self.initial_capital = initial_capital
         self.position1 = []
@@ -11,7 +11,4 @@ class Trader:
         self.openZ=[]
         self.Zscore=[]
         self.beta=[]
-
-
-
-
+        self.riskad=risk_ad
