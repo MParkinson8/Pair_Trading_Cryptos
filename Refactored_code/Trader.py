@@ -1,9 +1,3 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
-from DataHolder import DataHolder
-from Plotter import Plotter
 
 class Trader:
 
@@ -15,6 +9,9 @@ class Trader:
         self.position2 = []
         self.value = [initial_capital]
         self.openZ=[]
+        self.Zscore=[]
+        self.beta=[]
+
 
 
 
