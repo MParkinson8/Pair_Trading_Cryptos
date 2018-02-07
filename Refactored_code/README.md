@@ -36,9 +36,7 @@ ab{we are using open prices now so it should be fine...}
 
 11. Check the resampling in data holder, should not be needed but it was there before and now does not work on 30 mins data---> we have no dates to use for item 2.
 
-12 check the updates listed below. The performance are terrible now so I hope there is still stuff to correct
-
-14 Live computation of beta and zscore (inside for loop in backtest rather than doing it in advance in the dataholder) (this is a step towards 8)
+12. Take care of normalisation of Zscore, now the window ols and moving average are equal
 
 ------DONE----
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)DONE
@@ -50,6 +48,8 @@ ab{we are using open prices now so it should be fine...}
 5. Update beta after entering position (i.e. adjust open position sizes with the time) DONE
 
 13. Testing DONE
+
+14 Live computation of beta and zscore (inside for loop in backtest rather than doing it in advance in the dataholder) (this is a step towards 8) DONE
 --------------
 
 
