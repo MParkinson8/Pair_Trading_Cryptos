@@ -36,6 +36,8 @@ ab{we are using open prices now so it should be fine...}
 
 12. Take care of normalisation of Zscore, now the window ols and moving average are equal
 
+13. Stop Loss
+
 ------DONE----
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)DONE
 
