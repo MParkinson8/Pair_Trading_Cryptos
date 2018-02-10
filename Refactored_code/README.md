@@ -1,6 +1,4 @@
 
-Note that I found that beta has some nan in it. Someone should look into this.
-
 .........
 
 To compile in python 3 run in the terminal:
