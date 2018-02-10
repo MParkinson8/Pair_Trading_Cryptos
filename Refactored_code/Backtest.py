@@ -38,7 +38,7 @@ class Backtest:
                                                          sum_1, sum_2, self.commission_per_trade,
                                                          sum(trader.value)*trader.riskad)
 #if the position is already open we have to manage it
-            elif sum_2!=0 :
+            elif abs(sum_2)+abs(sum_1)>0:
                 #if we do not rebalance we use the same beta we used to open the position
                 if tester.test_stationarity(hprice1,hprice2,beta):
                     #we compute the value of the trading signal using old beta
@@ -54,7 +54,7 @@ class Backtest:
                                                              sum_1, sum_2, self.commission_per_trade,
                                                              sum(trader.value)*trader.riskad)
 #if we rebalance, and the coins are cointegrated
-                elif not tester.test_stationarity(hprice1,hprice2,beta) and tester.test_cointegration(hprice1,hprice2):
+                elif tester.test_cointegration(hprice1,hprice2):
 #compute the new cointegration parameter and z score
                     betanew = tester.calculate_beta(hprice1,hprice2)
                     zscore = tester.calculate_Zscore(hprice1,hprice2,betanew)

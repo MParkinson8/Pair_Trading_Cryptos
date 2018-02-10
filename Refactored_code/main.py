@@ -12,22 +12,22 @@ if __name__=="__main__":
 #Available coins: BTC LTC ETH ETC DASH XMR BCH
 
 #select the two coins to analyse
-    coins = ['BTC', 'BCH']
+    coins = ['ETC', 'ETH']
 #set windows for use of past data 
-    window_ols = 48*3 #estimation of beta
+    window_ols = 48*1 #estimation of beta
     window_ma = 48*7#normalisation of the z score
     
 #TEMP: levels to close position
     buy_sell_zscore = 2.0
     close_zscore = 0.5
 #trading data
-    starting_capital = 100000.0
+    starting_capital = 1000.0
 #provide risk adversion in [0,1] where it represets the percentage of 
 #portfolio value invested in one trade
     risk_adversion = 0.1  #(exposure)
     comission_per_trade = 0.5/100 #this is variable commission 
-    significance= 0.1 #for statistical test acceptance
-    #significance= 1.1
+    #significance= 0.1 #for statistical test acceptance
+    significance= 0.1
 
 ##################################################################################
 

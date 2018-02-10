@@ -110,7 +110,7 @@ class Plotter:
         self.plot_beta(trader.beta)
         self.plot_currencies(data.currencies, data.name1, data.name2)
         self.plot_pnl(data.currencies,trader.value, data.name1, data.name2)
-        #self.Plotter.plot_returns(trader.value, data.name1, data.name2)
+        #self.plot_returns(trader.value, data.name1, data.name2)
         #self.Plotter.plot_logsc(data.currencies, data.beta, data.name1, data.name2)
         self.plot_open_position(trader.position1, trader.position2, data.name1, data.name2)
         self.plot_units_bought_and_sold(trader.position1, trader.position2, data.name1, data.name2)

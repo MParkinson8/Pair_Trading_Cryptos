@@ -17,23 +17,31 @@ class Strategy:
 #"bud" (budget) represent the maximum exposure on one side (the one with cointegration parameter 1)
 
         #if z score is deep negative and we are currently not trading
-        if zscore<-self.buy_sell_zscore and sum_2==0:
+        if zscore<-self.buy_sell_zscore and sum_2==0 and sum_1==0:
             #then we buy currency 2 and sell currency 1
             #transaction cost is proportional to the size of the trade
-            value = -bud + bud*beta*price_curr_1/price_curr_2 - commission*(abs(bud) +abs( bud*beta))
-            position_curr_1 = -bud*beta/price_curr_2 #short beta unit of budget currency 1
-            position_curr_2 = bud/price_curr_2 #long 1 unit of budget currency 2
-
+#            value = -bud + bud*beta*price_curr_1/price_curr_2 - commission*(abs(bud) +abs( bud*beta))
+#            position_curr_1 = -bud*beta/price_curr_2 #short beta unit of budget currency 1
+#            position_curr_2 = bud/price_curr_2 #long 1 unit of budget currency 2
+            n=bud/(abs(price_curr_2)+abs(beta*price_curr_1))
+            value =-n*price_curr_2 + n*beta*price_curr_1 - commission*(abs(bud) +abs( bud*beta))
+            position_curr_1 = -n*beta #short beta unit of budget currency 1
+            position_curr_2 = n #long 1 unit of budget currency 2
+            
         #if z score is positive and we are currently not trading
-        elif zscore>self.buy_sell_zscore and sum_2==0:
+        elif zscore>self.buy_sell_zscore and sum_2==0 and sum_1==0:
             #then we buy currency 1 and sell currency 2
             #transaction cost is proportional to the size of the trade
-            value = +bud - bud*beta*price_curr_1/price_curr_2 - commission*(abs(bud) +abs( bud*beta))
-            position_curr_1 = bud*beta/price_curr_2 #long beta unit of budget currency 1
-            position_curr_2 = -bud/price_curr_2 #short 1 unit of budget currency 2
-
+#            value = +bud - bud*beta*price_curr_1/price_curr_2 - commission*(abs(bud) +abs( bud*beta))
+#            position_curr_1 = bud*beta/price_curr_2 #long beta unit of budget currency 1
+#            position_curr_2 = -bud/price_curr_2 #short 1 unit of budget currency 2
+            n=bud/(abs(price_curr_2)+abs(beta*price_curr_1))
+            value =n*price_curr_2 - n*beta*price_curr_1 - commission*(abs(bud) +abs( bud*beta))
+            position_curr_1 = n*beta #short beta unit of budget currency 1
+            position_curr_2 = -n #long 1 unit of budget currency 2
+            
         # the spread is narrow-->close all positions (avoid currency 1 coins leftovers)
-        elif -self.close_zscore<zscore<self.close_zscore and sum_2 != 0:
+        elif -self.close_zscore<zscore<self.close_zscore and abs(sum_2)+abs(sum_1)>0:
             # the sum variable only contains the current position in the coins
             value = +sum_2*price_curr_2+sum_1*price_curr_1 - commission*(
                                                       abs(sum_2*price_curr_2) +abs( sum_1*beta * price_curr_1))
