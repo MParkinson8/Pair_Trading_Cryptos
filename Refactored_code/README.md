@@ -1,6 +1,4 @@
 
-Note that I found that beta has some nan in it. Someone should look into this.
-
 .........
 
 To compile in python 3 run in the terminal:
@@ -37,6 +35,8 @@ ab{we are using open prices now so it should be fine...}
 11. Check the resampling in data holder, should not be needed but it was there before and now does not work on 30 mins data---> we have no dates to use for item 2.
 
 12. Take care of normalisation of Zscore, now the window ols and moving average are equal
+
+13. Stop Loss
 
 ------DONE----
 1. Percent of the position is commission per trade (not fixed, but depends on the amount traded)DONE
